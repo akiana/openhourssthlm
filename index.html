@@ -5,17 +5,16 @@
     <style type="text/css">
       html { height: 100% }
       body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height: 100% }
+      #map-canvas { height: 100%;}
     </style>
     <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/place/nearbysearch/json?opennow&location=-59.326885,18.065643&radius=5000&types=store&sensor=false&key=AIzaSyBFixatOF5nLevA9tikBOxy7meT--4xliY">
-
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnIJcvKQxSIen1L8HzjB0cIsq8ueNvbtI&sensor=true">
     </script>
     <script type="text/javascript">
       function initialize() {
         var mapOptions = {
-          center: new google.maps.LatLng(-34.397, 150.644),
-          zoom: 8,
+          center: new google.maps.LatLng(59.324663, 18.064957),
+          zoom: 13,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(document.getElementById("map-canvas"),
