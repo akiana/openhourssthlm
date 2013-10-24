@@ -40,6 +40,70 @@
 
 //Initialize map setting place + requests what we want from API + 
 function initialize() {
+  geocoder = new google.maps.Geocoder();
+  var pyrmont = new google.maps.LatLng(59.324663,18.064957);
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), {
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    center: pyrmont,
+    zoom: 13
+  });
+
+  var request = {
+    location: pyrmont,
+    radius: 5000,
+    types: ['store', "restaurant"],
+    keyword: ['clothes', "food"],
+      //openNow: true
+    };
+    infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, callback);
+  }
+
+  function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        createMarker(results[i]);
+      }
+    }
+  }
+
+  function createMarker(place) {
+    var placeLoc = place.geometry.location;
+    var marker = new google.maps.Marker({
+      map: map,
+      animation: google.maps.Animation.DROP,
+      position: place.geometry.location
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        //var service = new google.maps.places.PlacesService(map);
+        var request = {reference : place.reference};
+      //service.getDetails(request, detail);
+
+      var service = new google.maps.places.PlacesService(map);
+
+      service.getDetails(request, function(place, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            var d = new Date();
+            infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+            infowindow.open(map, this);
+          });
+        }
+      });
+    });
+
+}
+
+//////
+
+function store() {
   var pyrmont = new google.maps.LatLng(59.324663,18.064957);
 
   map = new google.maps.Map(document.getElementById('map-canvas'), {
@@ -98,16 +162,190 @@ function initialize() {
       });
     });
 
-google.maps.event.addListener(map, 'click', function(event) {
-  var lat = event.latLng.lat();
-  var lng = event.latLng.lng();
-    // populate yor box/field with lat, lng
-    var pyrmont = new google.maps.LatLng(lat + "," + lng);
-    console.log("it freakin works " + lat + lng);
+}
+
+function caf() {
+  var pyrmont = new google.maps.LatLng(59.324663,18.064957);
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), {
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    center: pyrmont,
+    zoom: 13
   });
+
+  var request = {
+    location: pyrmont,
+    radius: 5000,
+    types: ['cafe'],
+    keyword: ['coffee'],
+      //openNow: true
+    };
+    infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, callback);
+  }
+
+  function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        createMarker(results[i]);
+      }
+    }
+  }
+
+  function createMarker(place) {
+    var placeLoc = place.geometry.location;
+    var marker = new google.maps.Marker({
+      map: map,
+      animation: google.maps.Animation.DROP,
+      position: place.geometry.location
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        //var service = new google.maps.places.PlacesService(map);
+        var request = {reference : place.reference};
+      //service.getDetails(request, detail);
+
+      var service = new google.maps.places.PlacesService(map);
+
+      service.getDetails(request, function(place, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            var d = new Date();
+            infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+            infowindow.open(map, this);
+          });
+        }
+      });
+    });
 
 }
 
+function resta() {
+  var pyrmont = new google.maps.LatLng(59.324663,18.064957);
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), {
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    center: pyrmont,
+    zoom: 13
+  });
+
+  var request = {
+    location: pyrmont,
+    radius: 5000,
+    types: ['restaurant'],
+    keyword: ['food'],
+      //openNow: true
+    };
+    infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, callback);
+  }
+
+  function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        createMarker(results[i]);
+      }
+    }
+  }
+
+  function createMarker(place) {
+    var placeLoc = place.geometry.location;
+    var marker = new google.maps.Marker({
+      map: map,
+      animation: google.maps.Animation.DROP,
+      position: place.geometry.location
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        //var service = new google.maps.places.PlacesService(map);
+        var request = {reference : place.reference};
+      //service.getDetails(request, detail);
+
+      var service = new google.maps.places.PlacesService(map);
+
+      service.getDetails(request, function(place, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            var d = new Date();
+            infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+            infowindow.open(map, this);
+          });
+        }
+      });
+    });
+
+}
+
+function market() {
+  var pyrmont = new google.maps.LatLng(59.324663,18.064957);
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), {
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    center: pyrmont,
+    zoom: 13
+  });
+
+  var request = {
+    location: pyrmont,
+    radius: 5000,
+    types: ['grocery_or_supermarket'],
+    keyword: ['food'],
+      //openNow: true
+    };
+    infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, callback);
+  }
+
+  function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        createMarker(results[i]);
+      }
+    }
+  }
+
+  function createMarker(place) {
+    var placeLoc = place.geometry.location;
+    var marker = new google.maps.Marker({
+      map: map,
+      animation: google.maps.Animation.DROP,
+      position: place.geometry.location
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        //var service = new google.maps.places.PlacesService(map);
+        var request = {reference : place.reference};
+      //service.getDetails(request, detail);
+
+      var service = new google.maps.places.PlacesService(map);
+
+      service.getDetails(request, function(place, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            var d = new Date();
+            infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+            infowindow.open(map, this);
+          });
+        }
+      });
+    });
+
+}
 
 function codeAddress() {
   var address = document.getElementById('address').value;
@@ -156,16 +394,16 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav">
-        <li id="here" class="active"><button type="button" class="btn btn-success navbar-btn">I'M HERE</button></li>
+        <li><button type="button" class="btn btn-success navbar-btn" onClick="store()">SHOPS</button></li>
         <li> - </li>
-        <li><button type="button" id="shops" class="btn btn-success navbar-btn">SHOPS</button></li>
+        <li><button type="button" class="btn btn-success navbar-btn" onClick="caf()">CAFE</button></li>
         <li> - </li>
-        <li><button type="button" id="restaurants" class="btn btn-success navbar-btn">RESTAURANTS</button></li>
+        <li><button type="button" class="btn btn-success navbar-btn" onClick="resta()">RESTAURANTS</button></li>
         <li> - </li>
-        <li><button type="button" id="supermarkets" class="btn btn-success navbar-btn">SUPER MARKETS</button></li>
+        <li><button type="button" class="btn btn-success navbar-btn" onClick="market()">SUPER MARKETS</button></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><button type="button" a data-toggle="modal" href="#myModal" class="btn btn-success navbar-btn">ADD OPENING HOURS bla</a></button></li>
+        <li><button type="button" a data-toggle="modal" href="#myModal" class="btn btn-success navbar-btn">ADD OPENING HOURS</button></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </nav>
