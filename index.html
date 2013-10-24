@@ -93,12 +93,12 @@ google.maps.event.addListener(map, 'click', function(event) {
     var lng = event.latLng.lng();
     // populate yor box/field with lat, lng
     var pyrmont = new google.maps.LatLng(lat + "," + lng);
-    console.log("it freakin works" + lat + lng);
+    console.log("it freakin works " + lat + lng);
 });
 
 }
 
-$("#restaurants").on('click', changeRestaruants, initialize);
+$("#restaurants").on('click', changeRestaruants);
 
 function changeRestaruants () {
   console.log("yeha");
