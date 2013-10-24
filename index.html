@@ -2,7 +2,7 @@
 <html>
 <head>
 
-  <title>WHAT IS OPEN STHLM ?</title>
+  <title>WHAT IS OPEN STHLM?</title>
   <!-- CSS + BOOTSTRAP + MAP -->
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   <link href="css/style.css" rel="stylesheet" media="screen">
@@ -31,11 +31,8 @@
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
   <script>
 
-
-
     var map;
     var infowindow;
-    var pyrmont = new google.maps.LatLng(59.324663,18.064957)
     var geocoder;
 
 
@@ -131,6 +128,7 @@
             createMarker(results[i]);
           }
         }
+
       }
 
       function createMarker(place) {
@@ -358,18 +356,21 @@
 
       }
 
-      function codeAddress() {
-        var address = document.getElementById('address').value;
-        geocoder.geocode( { 'address': address}, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-      }
-
-      google.maps.event.addDomListener(window, 'load', initialize);
+function codeAddress() {
+  var address = document.getElementById('address').value;
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      map.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+          //map: map,
+          //position: results[0].geometry.location
+      });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
 </head>
@@ -382,10 +383,10 @@
 </div>
 <div class="container">
 
-  <!-- The input address window -->
+  <!-- The input window -->
   <div id="panel">
-    <input id="address" type="textbox" style="width:300px" placeholder="Type in your address here">
-    <input id="findme" type="button" value="Find me">
+    <input id="address" type="textbox" style="width:200px" placeholder="Type in your address here">
+    <input type="button" value="Find me" onclick="codeAddress()">
   </div>
 
   <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
@@ -412,7 +413,7 @@
         <li><button type="button" class="btn btn-success navbar-btn" onClick="market();">SUPER MARKETS</button></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><button type="button" a data-toggle="modal" href="#myModal" class="btn btn-success navbar-btn">ADD OPENING HOURS</button></li>
+        <li><button type="button" a data-toggle="modal" href="#myModal" class="btn btn-success navbar-btn">ADD OPENING HOURS bla</a></button></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </nav>
@@ -429,7 +430,7 @@
           <div class="form-group">
             <label for="addName">Name</label>
             <input type="name" class="form-control" id="addName" placeholder="Name of the location">
-            <p class="help-block">This text should help you!</p>
+            <p class="help-block">Example block-level help text here.</p>
           </div>
           <div class="form-group">
             <label for="addAdress">Address</label>
@@ -468,12 +469,6 @@
   ändrar värde på STORE till RESTAURANT + GROCERIES (AKI) 
   API + scraping data i samma kod? (AKI)  -->
 
-  <!-- PONNY
-  -->
-
-  <!-- ÖVRIGT
-  ändrar värde på STORE till RESTAURANT + GROCERIES (AKI) 
-  API + scraping data i samma kod? (AKI)  -->
 
 
 
