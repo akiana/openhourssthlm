@@ -230,14 +230,6 @@ function market() {
       }
     }
   }
-
-  function createMarker(place) {
-    var placeLoc = place.geometry.location;
-    var marker = new google.maps.Marker({
-      map: map,
-      position: place.geometry.location
-    });
-
     google.maps.event.addListener(marker, 'click', function() {
         //var service = new google.maps.places.PlacesService(map);
       var request = {reference : place.reference};
@@ -259,9 +251,9 @@ function market() {
         }
       });
     });
-});
 
     google.maps.event.addDomListener(window, 'load', initialize);
+    });
 </script>
 </head>
 
@@ -297,7 +289,7 @@ function market() {
         <li><button type="button" class="btn btn-success navbar-btn" onClick="market();">SUPER MARKETS</button></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><button type="button" a data-toggle="modal" href="#myModal" class="btn btn-success navbar-btn">ADD OPENING HOURS</a></button></li>
+        <li><button type="button" a data-toggle="modal" href="#myModal" class="btn btn-success navbar-btn">ADD OPENING HOURS bla</a></button></li>
       </ul>
     </div><!-- /.navbar-collapse -->
     </nav>
