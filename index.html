@@ -30,18 +30,14 @@
   <!-- GETTING API -->
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
   <script>
-  $( document ).ready(function() {
-
-
-
     var map;
     var infowindow;
-    var pyrmont = new google.maps.LatLng(59.324663,18.064957)
+    var geocoder;
 
 //Initialize map setting place + requests what we want from API + 
 function initialize() {
+  geocoder = new google.maps.Geocoder();
   var pyrmont = new google.maps.LatLng(59.324663,18.064957);
-
   map = new google.maps.Map(document.getElementById('map-canvas'), {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: pyrmont,
@@ -108,22 +104,25 @@ google.maps.event.addListener(map, 'click', function(event) {
 
 }
 
-
+function hejHej () {
+  console.log('hejhejhejhejhejhej')
+}
 
 function codeAddress() {
   var address = document.getElementById('address').value;
   geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       map.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+          //map: map,
+          //position: results[0].geometry.location
+      });
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
   });
 }
-
 google.maps.event.addDomListener(window, 'load', initialize);
-
-}); //End of jquery
 
 </script>
 </head>
@@ -138,8 +137,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
   <!-- The input window -->
   <div id="panel">
-    <input id="address" type="textbox" value="Type in your address here">
-    <input type="button" value="Geocode" onclick="codeAddress()">
+    <input id="address" type="textbox" style="width:200px" placeholder="Type in your address here">
+    <input type="button" value="Find me" onclick="codeAddress()">
   </div>
 
   <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
