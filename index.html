@@ -22,7 +22,9 @@
   <script>
   var map;
   var infowindow;
+  var pyrmont = new google.maps.LatLng(59.324663,18.064957);
 
+//Initialize map setting place + requests what we want from API + 
   function initialize() {
     var pyrmont = new google.maps.LatLng(59.324663,18.064957);
 
@@ -120,7 +122,7 @@ function store() {
 
     google.maps.event.addListener(marker, 'click', function() {
         //var service = new google.maps.places.PlacesService(map);
-      var request = {reference : place.reference};
+        var request = {reference : place.reference};
       //service.getDetails(request, detail);
 
       var service = new google.maps.places.PlacesService(map);
@@ -139,7 +141,7 @@ function store() {
         }
       });
     });
-}
+});
 
 function resta() {
     var pyrmont = new google.maps.LatLng(59.324663,18.064957);
@@ -198,7 +200,7 @@ function resta() {
         }
       });
     });
-}
+});
 
 function market() {
     var pyrmont = new google.maps.LatLng(59.324663,18.064957);
@@ -257,13 +259,9 @@ function market() {
         }
       });
     });
-}
+});
 
     google.maps.event.addDomListener(window, 'load', initialize);
-
-    
-
-    ///TRYING TO GET THE BUTTONS SHOW ONLY ONE THING///
 </script>
 </head>
 
@@ -271,7 +269,7 @@ function market() {
  <!-- The google map -->
  <div id="map-canvas" style="float:center"></div>
  <div style="width:46%; float:center">
-  <div id="map-canvas"/>
+  <div id="map-canvas"/> 
 </div>
 <div class="container">
 
@@ -346,4 +344,16 @@ function market() {
 </html>
 
 
-<!-- lägga till funktion som: ändrar var du är på kartan (SOFIE), ändrar värde på STORE till RESTAURANT + GROCERIES (AKI) OPEN HOURS = true (SOFIE) API + scraping data i samma kod? -->
+<!-- SOFIE
+  lägga till funktion som: ändrar var du är på kartan (SOFIE), 
+  bugga av att ny markör skapas när jag klickar på den för information (SOFIE)-->
+
+
+<!-- AKI
+  ändrar värde på STORE till RESTAURANT + GROCERIES (AKI) 
+  API + scraping data i samma kod? (AKI)  -->
+
+
+
+
+
