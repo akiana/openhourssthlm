@@ -21,9 +21,7 @@
     left: 50%;
     margin-left: -180px;
     z-index: 5;
-    background-color: #fff;
     padding: 5px;
-    border: 1px solid #999;
   }
   </style>
 
@@ -34,6 +32,7 @@
     var map;
     var infowindow;
     var geocoder;
+    var center;
 
 
 
@@ -48,75 +47,29 @@
         zoom: 13
       });
 
-      var request = {
-        location: pyrmont,
-        radius: 5000,
-        types: ['store', "restaurant"],
-        keyword: ['clothes', "food"],
-          //openNow: true
-        };
-        infowindow = new google.maps.InfoWindow();
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, callback);
-      }
+    
+      google.maps.event.addListener(map, 'idle', function() {
+        console.log("LatLng");
 
-      function callback(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-          }
-        }
-      }
-
-      function createMarker(place) {
-        var placeLoc = place.geometry.location;
-        var marker = new google.maps.Marker({
-          map: map,
-          animation: google.maps.Animation.DROP,
-          position: place.geometry.location
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-            //var service = new google.maps.places.PlacesService(map);
-            var request = {reference : place.reference};
-          //service.getDetails(request, detail);
-
-          var service = new google.maps.places.PlacesService(map);
-
-          service.getDetails(request, function(place, status) {
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-              var marker = new google.maps.Marker({
-                map: map,
-                position: place.geometry.location
-              });
-              google.maps.event.addListener(marker, 'click', function() {
-                var d = new Date();
-                infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
-                infowindow.open(map, this);
-              });
-            }
-          });
-        });
-
-      }
-
-      function shop() {
-      geocoder = new google.maps.Geocoder();
-      var pyrmont = new google.maps.LatLng(59.324663,18.064957);
-
-      map = new google.maps.Map(document.getElementById('map-canvas'), {
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: pyrmont,
-        zoom: 13
       });
 
       var request = {
         location: pyrmont,
         radius: 5000,
+        };
+}
+      //
+
+      function shop() {
+    
+      var request = {
+        location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
+        radius: 5000,
         types: ['store'],
         keyword: ['clothes'],
-          //openNow: true
+        openNow: true
         };
+
         infowindow = new google.maps.InfoWindow();
         var service = new google.maps.places.PlacesService(map);
         service.nearbySearch(request, callback);
@@ -164,22 +117,13 @@
       }
 
       function caf() {
-      geocoder = new google.maps.Geocoder();
-      var pyrmont = new google.maps.LatLng(59.324663,18.064957);
-
-      map = new google.maps.Map(document.getElementById('map-canvas'), {
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: pyrmont,
-        zoom: 13
-      });
-
       var request = {
-        location: pyrmont,
+        location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
         radius: 5000,
         types: ['cafe'],
-        keyword: ['coffee'],
-          //openNow: true
+        openNow: true
         };
+
         infowindow = new google.maps.InfoWindow();
         var service = new google.maps.places.PlacesService(map);
         service.nearbySearch(request, callback);
@@ -191,6 +135,7 @@
             createMarker(results[i]);
           }
         }
+
       }
 
       function createMarker(place) {
@@ -222,26 +167,16 @@
             }
           });
         });
-
       }
 
       function resta() {
-      geocoder = new google.maps.Geocoder();
-      var pyrmont = new google.maps.LatLng(59.324663,18.064957);
-
-      map = new google.maps.Map(document.getElementById('map-canvas'), {
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: pyrmont,
-        zoom: 13
-      });
-
-      var request = {
-        location: pyrmont,
+    var request = {
+        location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
         radius: 5000,
         types: ['restaurant'],
-        keyword: ['food'],
-          //openNow: true
+        openNow: true
         };
+
         infowindow = new google.maps.InfoWindow();
         var service = new google.maps.places.PlacesService(map);
         service.nearbySearch(request, callback);
@@ -253,6 +188,7 @@
             createMarker(results[i]);
           }
         }
+
       }
 
       function createMarker(place) {
@@ -288,22 +224,13 @@
       }
 
       function market() {
-      geocoder = new google.maps.Geocoder();
-      var pyrmont = new google.maps.LatLng(59.324663,18.064957);
-
-      map = new google.maps.Map(document.getElementById('map-canvas'), {
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: pyrmont,
-        zoom: 13
-      });
-
-      var request = {
-        location: pyrmont,
+ var request = {
+        location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
         radius: 5000,
         types: ['grocery_or_supermarket'],
-        keyword: ['food'],
-          //openNow: true
+        openNow: true
         };
+
         infowindow = new google.maps.InfoWindow();
         var service = new google.maps.places.PlacesService(map);
         service.nearbySearch(request, callback);
@@ -315,6 +242,7 @@
             createMarker(results[i]);
           }
         }
+
       }
 
       function createMarker(place) {
@@ -334,10 +262,10 @@
 
           service.getDetails(request, function(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-              var marker = new google.maps.Marker({
-                map: map,
-                position: place.geometry.location
-              });
+             // var marker = new google.maps.Marker({
+                //map: map,
+                //position: place.geometry.location
+             // });
               google.maps.event.addListener(marker, 'click', function() {
                 var d = new Date();
                 infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
@@ -346,14 +274,6 @@
             }
           });
         });
-
-      }
-
-      $('#findme').on('click', hejHej, codeAddress);
-
-      function hejHej() {
-        console.log('hejhej')
-
       }
 
 function codeAddress() {
@@ -370,6 +290,8 @@ function codeAddress() {
     }
   });
 }
+
+
 google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
@@ -384,9 +306,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <div class="container">
 
   <!-- The input window -->
-  <div id="panel">
-    <input id="address" type="textbox" style="width:200px" placeholder="Type in your address here">
-    <input type="button" value="Find me" onclick="codeAddress()">
+  <div id="panel" class="input-group">
+    <input class="form-control" id="address" type="textbox" style="width:200px" placeholder="Type in your address here" onkeydown="if (event.keyCode == 13) codeAddress()">
+    <input class="btn btn-success navbar-btn" type="button" value="Find me" onclick="codeAddress()">
   </div>
 
   <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
@@ -462,7 +384,10 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 <!-- SOFIE
   KLART!! lägga till funktion som: ändrar var du är på kartan (SOFIE), 
-  bugga av att ny markör skapas när jag klickar på den för information (SOFIE)-->
+  klicka ENTER på "find me"
+  markörer försvinner när du klickar igen på knappen (SOFIE),
+  add preset citys
+  KLART!! bugga av att ny markör skapas när jag klickar på den för information (SOFIE)-->
 
 
 <!-- AKI
