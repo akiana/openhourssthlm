@@ -29,10 +29,10 @@
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
   <script>
 
-    var map;
-    var infowindow;
-    var geocoder;
-    var center;
+  var map;
+  var infowindow;
+  var geocoder;
+  var center;
 
 
 
@@ -47,7 +47,13 @@
         zoom: 13
       });
 
-    
+      var center;
+      function calculateCenter() {
+        center = map.getCenter();
+      }
+      google.maps.event.addDomListener(map, 'idle', function() {
+        calculateCenter();
+      });
       google.maps.event.addListener(map, 'idle', function() {
         console.log("LatLng");
 
@@ -56,43 +62,47 @@
       var request = {
         location: pyrmont,
         radius: 5000,
-        };
-}
+      };
+
+      google.maps.event.addDomListener(window, 'resize', function() {
+        map.setCenter(center);
+      });
+    }
       //
 
       function shop() {
-    
-      var request = {
+        
+        var request = {
         location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
         radius: 5000,
         types: ['store'],
         keyword: ['clothes'],
         openNow: true
-        };
+      };
 
-        infowindow = new google.maps.InfoWindow();
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, callback);
-      }
+      infowindow = new google.maps.InfoWindow();
+      var service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, callback);
+    }
 
-      function callback(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-          }
+    function callback(results, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          createMarker(results[i]);
         }
-
       }
 
-      function createMarker(place) {
-        var placeLoc = place.geometry.location;
-        var marker = new google.maps.Marker({
-          map: map,
-          animation: google.maps.Animation.DROP,
-          position: place.geometry.location
-        });
+    }
 
-        google.maps.event.addListener(marker, 'click', function() {
+    function createMarker(place) {
+      var placeLoc = place.geometry.location;
+      var marker = new google.maps.Marker({
+        map: map,
+        animation: google.maps.Animation.DROP,
+        position: place.geometry.location
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
             //var service = new google.maps.places.PlacesService(map);
             var request = {reference : place.reference};
           //service.getDetails(request, detail);
@@ -114,39 +124,39 @@
           });
         });
 
-      }
+}
 
-      function caf() {
-      var request = {
+function caf() {
+  var request = {
         location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
         radius: 5000,
         types: ['cafe'],
         openNow: true
-        };
+      };
 
-        infowindow = new google.maps.InfoWindow();
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, callback);
-      }
+      infowindow = new google.maps.InfoWindow();
+      var service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, callback);
+    }
 
-      function callback(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-          }
+    function callback(results, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          createMarker(results[i]);
         }
-
       }
 
-      function createMarker(place) {
-        var placeLoc = place.geometry.location;
-        var marker = new google.maps.Marker({
-          map: map,
-          animation: google.maps.Animation.DROP,
-          position: place.geometry.location
-        });
+    }
 
-        google.maps.event.addListener(marker, 'click', function() {
+    function createMarker(place) {
+      var placeLoc = place.geometry.location;
+      var marker = new google.maps.Marker({
+        map: map,
+        animation: google.maps.Animation.DROP,
+        position: place.geometry.location
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
             //var service = new google.maps.places.PlacesService(map);
             var request = {reference : place.reference};
           //service.getDetails(request, detail);
@@ -167,39 +177,39 @@
             }
           });
         });
-      }
+}
 
-      function resta() {
-    var request = {
+function resta() {
+  var request = {
         location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
         radius: 5000,
         types: ['restaurant'],
         openNow: true
-        };
+      };
 
-        infowindow = new google.maps.InfoWindow();
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, callback);
-      }
+      infowindow = new google.maps.InfoWindow();
+      var service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, callback);
+    }
 
-      function callback(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-          }
+    function callback(results, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          createMarker(results[i]);
         }
-
       }
 
-      function createMarker(place) {
-        var placeLoc = place.geometry.location;
-        var marker = new google.maps.Marker({
-          map: map,
-          animation: google.maps.Animation.DROP,
-          position: place.geometry.location
-        });
+    }
 
-        google.maps.event.addListener(marker, 'click', function() {
+    function createMarker(place) {
+      var placeLoc = place.geometry.location;
+      var marker = new google.maps.Marker({
+        map: map,
+        animation: google.maps.Animation.DROP,
+        position: place.geometry.location
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
             //var service = new google.maps.places.PlacesService(map);
             var request = {reference : place.reference};
           //service.getDetails(request, detail);
@@ -221,39 +231,39 @@
           });
         });
 
-      }
+}
 
-      function market() {
+function market() {
  var request = {
         location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
         radius: 5000,
         types: ['grocery_or_supermarket'],
         openNow: true
-        };
+      };
 
-        infowindow = new google.maps.InfoWindow();
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, callback);
-      }
+      infowindow = new google.maps.InfoWindow();
+      var service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, callback);
+    }
 
-      function callback(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-          }
+    function callback(results, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          createMarker(results[i]);
         }
-
       }
 
-      function createMarker(place) {
-        var placeLoc = place.geometry.location;
-        var marker = new google.maps.Marker({
-          map: map,
-          animation: google.maps.Animation.DROP,
-          position: place.geometry.location
-        });
+    }
 
-        google.maps.event.addListener(marker, 'click', function() {
+    function createMarker(place) {
+      var placeLoc = place.geometry.location;
+      var marker = new google.maps.Marker({
+        map: map,
+        animation: google.maps.Animation.DROP,
+        position: place.geometry.location
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
             //var service = new google.maps.places.PlacesService(map);
             var request = {reference : place.reference};
           //service.getDetails(request, detail);
@@ -266,15 +276,15 @@
                 //map: map,
                 //position: place.geometry.location
              // });
-              google.maps.event.addListener(marker, 'click', function() {
-                var d = new Date();
-                infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
-                infowindow.open(map, this);
-              });
-            }
+          google.maps.event.addListener(marker, 'click', function() {
+            var d = new Date();
+            infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+            infowindow.open(map, this);
           });
+        }
+      });
         });
-      }
+}
 
 function codeAddress() {
   var address = document.getElementById('address').value;
@@ -284,7 +294,7 @@ function codeAddress() {
       var marker = new google.maps.Marker({
           //map: map,
           //position: results[0].geometry.location
-      });
+        });
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
@@ -307,7 +317,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
   <!-- The input window -->
   <div id="panel" class="input-group">
-    <input class="form-control" id="address" type="textbox" style="width:200px" placeholder="Type in your address here" onkeydown="if (event.keyCode == 13) codeAddress()">
+    <input class="form-control" id="address" type="textbox" style="width:300px" placeholder="Type in your address here" onkeydown="if (event.keyCode == 13) codeAddress()">
     <input class="btn btn-success navbar-btn" type="button" value="Find me" onclick="codeAddress()">
   </div>
 
@@ -320,7 +330,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">WHAT IS OPEN STHLM ?</a>
+      <a class="navbar-brand" onclick="initialize()" href="#">WHAT IS OPEN STHLM ?</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -335,7 +345,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
         <li><button type="button" class="btn btn-success navbar-btn" onClick="market();">SUPER MARKETS</button></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><button type="button" a data-toggle="modal" href="#myModal" class="btn btn-success navbar-btn">ADD OPENING HOURS bla</a></button></li>
+        <li><button type="button" a data-toggle="modal" href="#myModal" class="btn btn-success navbar-btn">ADD OPENING HOURS</a></button></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </nav>
