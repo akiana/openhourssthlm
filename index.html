@@ -68,15 +68,14 @@
         map.setCenter(center);
       });
     }
-      //
+      //Is called upon by shop button - shows then clothing shops on the map//
 
       function shop() {
-        
+
         var request = {
         location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
         radius: 5000,
-        types: ['store'],
-        keyword: ['clothes'],
+        types: ['clothing_store'],
         openNow: true
       };
 
@@ -124,202 +123,209 @@
           });
         });
 
-}
-
-function caf() {
-  var request = {
-        location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
-        radius: 5000,
-        types: ['cafe'],
-        openNow: true
-      };
-
-      infowindow = new google.maps.InfoWindow();
-      var service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, callback);
     }
 
-    function callback(results, status) {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-          createMarker(results[i]);
-        }
-      }
+    //Is called upon by the cafe button - shows then cafes on the map//
 
-    }
+    function caf() {
+      var request = {
+            location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
+            radius: 5000,
+            types: ['cafe'],
+            openNow: true
+          };
 
-    function createMarker(place) {
-      var placeLoc = place.geometry.location;
-      var marker = new google.maps.Marker({
-        map: map,
-        animation: google.maps.Animation.DROP,
-        position: place.geometry.location
-      });
-
-      google.maps.event.addListener(marker, 'click', function() {
-            //var service = new google.maps.places.PlacesService(map);
-            var request = {reference : place.reference};
-          //service.getDetails(request, detail);
-
+          infowindow = new google.maps.InfoWindow();
           var service = new google.maps.places.PlacesService(map);
+          service.nearbySearch(request, callback);
+        }
 
-          service.getDetails(request, function(place, status) {
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-              var marker = new google.maps.Marker({
-                map: map,
-                position: place.geometry.location
-              });
-              google.maps.event.addListener(marker, 'click', function() {
-                var d = new Date();
-                infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
-                infowindow.open(map, this);
-              });
+        function callback(results, status) {
+          if (status == google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+              createMarker(results[i]);
             }
-          });
-        });
-}
+          }
 
-function resta() {
-  var request = {
-        location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
-        radius: 5000,
-        types: ['restaurant'],
-        openNow: true
-      };
-
-      infowindow = new google.maps.InfoWindow();
-      var service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, callback);
-    }
-
-    function callback(results, status) {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-          createMarker(results[i]);
         }
-      }
 
-    }
-
-    function createMarker(place) {
-      var placeLoc = place.geometry.location;
-      var marker = new google.maps.Marker({
-        map: map,
-        animation: google.maps.Animation.DROP,
-        position: place.geometry.location
-      });
-
-      google.maps.event.addListener(marker, 'click', function() {
-            //var service = new google.maps.places.PlacesService(map);
-            var request = {reference : place.reference};
-          //service.getDetails(request, detail);
-
-          var service = new google.maps.places.PlacesService(map);
-
-          service.getDetails(request, function(place, status) {
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-              var marker = new google.maps.Marker({
-                map: map,
-                position: place.geometry.location
-              });
-              google.maps.event.addListener(marker, 'click', function() {
-                var d = new Date();
-                infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
-                infowindow.open(map, this);
-              });
-            }
+        function createMarker(place) {
+          var placeLoc = place.geometry.location;
+          var marker = new google.maps.Marker({
+            map: map,
+            animation: google.maps.Animation.DROP,
+            position: place.geometry.location
           });
-        });
 
-}
-
-function market() {
- var request = {
-        location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
-        radius: 5000,
-        types: ['grocery_or_supermarket'],
-        openNow: true
-      };
-
-      infowindow = new google.maps.InfoWindow();
-      var service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, callback);
-    }
-
-    function callback(results, status) {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-          createMarker(results[i]);
-        }
-      }
-
-    }
-
-    function createMarker(place) {
-      var placeLoc = place.geometry.location;
-      var marker = new google.maps.Marker({
-        map: map,
-        animation: google.maps.Animation.DROP,
-        position: place.geometry.location
-      });
-
-      google.maps.event.addListener(marker, 'click', function() {
-            //var service = new google.maps.places.PlacesService(map);
-            var request = {reference : place.reference};
-          //service.getDetails(request, detail);
-
-          var service = new google.maps.places.PlacesService(map);
-
-          service.getDetails(request, function(place, status) {
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-             // var marker = new google.maps.Marker({
-                //map: map,
-                //position: place.geometry.location
-             // });
           google.maps.event.addListener(marker, 'click', function() {
-            var d = new Date();
-            infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
-            infowindow.open(map, this);
+                //var service = new google.maps.places.PlacesService(map);
+                var request = {reference : place.reference};
+              //service.getDetails(request, detail);
+
+              var service = new google.maps.places.PlacesService(map);
+
+              service.getDetails(request, function(place, status) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                  var marker = new google.maps.Marker({
+                    map: map,
+                    position: place.geometry.location
+                  });
+                  google.maps.event.addListener(marker, 'click', function() {
+                    var d = new Date();
+                    infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+                    infowindow.open(map, this);
+                  });
+                }
+              });
+            });
+    }
+
+    //Is called upon with restaurang button - shows then restaurants on the map//
+
+    function resta() {
+      var request = {
+            location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
+            radius: 5000,
+            types: ['restaurant'],
+            openNow: true
+          };
+
+          infowindow = new google.maps.InfoWindow();
+          var service = new google.maps.places.PlacesService(map);
+          service.nearbySearch(request, callback);
+        }
+
+        function callback(results, status) {
+          if (status == google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+              createMarker(results[i]);
+            }
+          }
+
+        }
+
+        function createMarker(place) {
+          var placeLoc = place.geometry.location;
+          var marker = new google.maps.Marker({
+            map: map,
+            animation: google.maps.Animation.DROP,
+            position: place.geometry.location
           });
+
+          google.maps.event.addListener(marker, 'click', function() {
+                //var service = new google.maps.places.PlacesService(map);
+                var request = {reference : place.reference};
+              //service.getDetails(request, detail);
+
+              var service = new google.maps.places.PlacesService(map);
+
+              service.getDetails(request, function(place, status) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                  var marker = new google.maps.Marker({
+                    map: map,
+                    position: place.geometry.location
+                  });
+                  google.maps.event.addListener(marker, 'click', function() {
+                    var d = new Date();
+                    infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+                    infowindow.open(map, this);
+                  });
+                }
+              });
+            });
+
+    }
+    // Is called upon by super market button - shows then super market or groceries on the map//
+
+    function market() {
+     var request = {
+            location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
+            radius: 5000,
+            types: ['grocery_or_supermarket'],
+            openNow: true
+          };
+
+          infowindow = new google.maps.InfoWindow();
+          var service = new google.maps.places.PlacesService(map);
+          service.nearbySearch(request, callback);
+        }
+
+        function callback(results, status) {
+          if (status == google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+              createMarker(results[i]);
+            }
+          }
+
+        }
+
+        function createMarker(place) {
+          var placeLoc = place.geometry.location;
+          var marker = new google.maps.Marker({
+            map: map,
+            animation: google.maps.Animation.DROP,
+            position: place.geometry.location
+          });
+
+          google.maps.event.addListener(marker, 'click', function() {
+                //var service = new google.maps.places.PlacesService(map);
+                var request = {reference : place.reference};
+              //service.getDetails(request, detail);
+
+              var service = new google.maps.places.PlacesService(map);
+
+              service.getDetails(request, function(place, status) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                 // var marker = new google.maps.Marker({
+                    //map: map,
+                    //position: place.geometry.location
+                 // });
+              google.maps.event.addListener(marker, 'click', function() {
+                var d = new Date();
+                infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+                infowindow.open(map, this);
+              });
+            }
+          });
+            });
+    }
+
+    //Gets the longitude/longitude of the input by the user//
+
+    function codeAddress() {
+      var address = document.getElementById('address').value;
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          map.setCenter(results[0].geometry.location);
+          var marker = new google.maps.Marker({
+              //map: map,
+              //position: results[0].geometry.location
+            });
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
         }
       });
-        });
-}
-
-function codeAddress() {
-  var address = document.getElementById('address').value;
-  geocoder.geocode( { 'address': address}, function(results, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      map.setCenter(results[0].geometry.location);
-      var marker = new google.maps.Marker({
-          //map: map,
-          //position: results[0].geometry.location
-        });
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
     }
-  });
-}
 
 
-google.maps.event.addDomListener(window, 'load', initialize);
+    google.maps.event.addDomListener(window, 'load', initialize);
 
-$(window).resize(function () {
-    var h = $(window).height(),
-        offsetTop = 60; // Calculate the top offset
+    $(window).resize(function () {
+      var h = $(window).height(),
+            offsetTop = 60; // Calculate the top offset
 
-    $('#map-canvas').css('height', (h - offsetTop));
-}).resize();
+            $('#map-canvas').css('height', (h - offsetTop));
+          }).resize();
 
 </script>
 </head>
 
 <body>
-                
+
  <!-- The google map -->
-<div id="map-canvas" style="float:center"></div>
-<div style="width:46%; float:center">
-<div id="map-canvas"/>
+ <div id="map-canvas" style="float:center"></div>
+ <div style="width:46%; float:center">
+  <div id="map-canvas"/>
 </div>
 
 <div class="container">
@@ -327,7 +333,7 @@ $(window).resize(function () {
   <!-- The input window -->
   <div id="panel" class="input-group">
     <input class="form-control" id="address" type="textbox" style="width:300px" placeholder="Type in your address here" onkeydown="if (event.keyCode == 13) codeAddress()">
-    <input class="btn btn-success navbar-btn" type="button" value="Find me" onclick="codeAddress()">
+    <input class="btn btn-success" type="button" value="Find me" onclick="codeAddress()">
   </div>
 
   <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
@@ -359,6 +365,7 @@ $(window).resize(function () {
     </div><!-- /.navbar-collapse -->
   </nav>
 </div>
+<-- /.pop up for input of new opening hours -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -368,10 +375,14 @@ $(window).resize(function () {
       </div>
       <div class="modal-body">
         <form role="form">
+          <button type="button" class="btn btn-success btn-xs">CLOTHING SHOP</button>
+          <button type="button" class="btn btn-success btn-xs">CAFE</button>
+          <button type="button" class="btn btn-success btn-xs">RESTAURANT</button>
+          <button type="button" class="btn btn-success btn-xs">SUPER MARKET</button>
           <div class="form-group">
             <label for="addName">Name</label>
             <input type="name" class="form-control" id="addName" placeholder="Name of the location">
-            <p class="help-block">Example block-level help text here.</p>
+            <p class="help-block">Please make sure you have add correct information!</p>
           </div>
           <div class="form-group">
             <label for="addAdress">Address</label>
@@ -383,16 +394,12 @@ $(window).resize(function () {
             <label for="addHours">Open Hours</label>
             <input type="text" class="form-control" placeholder="Open Hours">
           </div>
-          <div class="form-group">
-            <label for="addHash">Instagram Hashtag</label>
-            <input type="text" class="form-control" id="addHash" placeholder="#hashtag">
-          </div>
-          <button type="submit" class="btn btn-default">Submit</button>
+          <button type="submit" class="btn btn-success">Submit</button>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-success">Save changes</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
