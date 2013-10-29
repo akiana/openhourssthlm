@@ -23,6 +23,16 @@
     z-index: 5;
     padding: 5px;
   }
+  #logo {
+    position: absolute;
+    top: 30px;
+    left: 90%;
+    margin-left: -180px;
+    z-index: 5;
+    padding: 5px;
+    height: 300px;
+    width: 250px;
+  }
   </style>
 
   <!-- GETTING API -->
@@ -33,7 +43,7 @@
   var infowindow;
   var geocoder;
   var center;
-
+  var iconBase = 'img/';
 
 
     //Initialize map setting place + requests what we want from API + 
@@ -70,225 +80,221 @@
     }
       //Is called upon by shop button - shows then clothing shops on the map//
 
-      function shop() {
 
-        var request = {
-        location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
-        radius: 5000,
-        types: ['clothing_store'],
-        openNow: true
-      };
-
-      infowindow = new google.maps.InfoWindow();
-      var service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, callback);
+    function shop() {
+  var request = {
+    location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
+    radius: 5000,
+    types: ['clothing_store'],
+    openNow: true
+  };
+  //Skapa infowindow och sök efter supermarketar - när svaret kommer anropa funktionen callback.
+  infowindow = new google.maps.InfoWindow();
+  var service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
+}
+//Funktionen callback tar emot svaret och skapar markers med CreateMarker för alla svaren i results
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      createMarker(results[i]);
     }
-
-    function callback(results, status) {
+  }
+}
+//För varje marker skapas ett markerobjekt "marker" i kartan map.
+function createMarker(place) {
+  var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    animation: google.maps.Animation.DROP,
+    icon: iconBase + 'icon_super3.png',
+    position: place.geometry.location
+  });
+// Till markerobjektet läggs en eventhandler som lyssnar på eventet "click". När det inträffar körs den kod som 
+// står i function {} blocket.
+  google.maps.event.addListener(marker, "click", function() {
+// Skapa en variabel som innehåller referensen det objekt markern pekar ut som request
+    var request = {reference : place.reference};
+//Skapa en servicetjäns för att ställa kompletterande frågor om objektet.
+    var service = new google.maps.places.PlacesService(map);
+//Fråga efter mer detaljer via servicen kring objektet i request (referensen).
+//När detta svar kommer anropa den kod som står efter detta funcion {} block.
+    service.getDetails(request, function(place, status) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-          createMarker(results[i]);
-        }
+        //Om OK (info har hittats)
+        var d = new Date(); //ett tidsobjekt så att vi kan hantera klockslag.
+        //Skapa texten i textrutan
+        //Hämta dag och utifrån detta öppnings och stängnings tid, trolla lite för att få det snyggt. place.opening_hours.periods[d.getDay()].open.time.slice(0,2)
+        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+        //Visa info fönstret vid marker (inte använda "this". This pekar i detta läge på window, hela fönsteret.
+        infowindow.open(map, marker);
       }
-
-    }
-
-    function createMarker(place) {
-      var placeLoc = place.geometry.location;
-      var marker = new google.maps.Marker({
-        map: map,
-        animation: google.maps.Animation.DROP,
-        position: place.geometry.location
-      });
-
-      google.maps.event.addListener(marker, 'click', function() {
-            //var service = new google.maps.places.PlacesService(map);
-            var request = {reference : place.reference};
-          //service.getDetails(request, detail);
-
-          var service = new google.maps.places.PlacesService(map);
-
-          service.getDetails(request, function(place, status) {
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-              var marker = new google.maps.Marker({
-                map: map,
-                position: place.geometry.location
-              });
-              google.maps.event.addListener(marker, 'click', function() {
-                var d = new Date();
-                infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
-                infowindow.open(map, this);
-              });
-            }
-          });
-        });
-
-    }
+    });
+  });
+}
 
     //Is called upon by the cafe button - shows then cafes on the map//
 
     function caf() {
-      var request = {
-            location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
-            radius: 5000,
-            types: ['cafe'],
-            openNow: true
-          };
-
-          infowindow = new google.maps.InfoWindow();
-          var service = new google.maps.places.PlacesService(map);
-          service.nearbySearch(request, callback);
-        }
-
-        function callback(results, status) {
-          if (status == google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
-              createMarker(results[i]);
-            }
-          }
-
-        }
-
-        function createMarker(place) {
-          var placeLoc = place.geometry.location;
-          var marker = new google.maps.Marker({
-            map: map,
-            animation: google.maps.Animation.DROP,
-            position: place.geometry.location
-          });
-
-          google.maps.event.addListener(marker, 'click', function() {
-                //var service = new google.maps.places.PlacesService(map);
-                var request = {reference : place.reference};
-              //service.getDetails(request, detail);
-
-              var service = new google.maps.places.PlacesService(map);
-
-              service.getDetails(request, function(place, status) {
-                if (status == google.maps.places.PlacesServiceStatus.OK) {
-                  var marker = new google.maps.Marker({
-                    map: map,
-                    position: place.geometry.location
-                  });
-                  google.maps.event.addListener(marker, 'click', function() {
-                    var d = new Date();
-                    infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
-                    infowindow.open(map, this);
-                  });
-                }
-              });
-            });
+  var request = {
+    location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
+    radius: 5000,
+    types: ['cafe'],
+    openNow: true
+  };
+  //Skapa infowindow och sök efter supermarketar - när svaret kommer anropa funktionen callback.
+  infowindow = new google.maps.InfoWindow();
+  var service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
+}
+//Funktionen callback tar emot svaret och skapar markers med CreateMarker för alla svaren i results
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      createMarker(results[i]);
     }
+  }
+}
+//För varje marker skapas ett markerobjekt "marker" i kartan map.
+function createMarker(place) {
+  var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    animation: google.maps.Animation.DROP,
+    icon: iconBase + 'icon_super3.png',
+    position: place.geometry.location
+  });
+// Till markerobjektet läggs en eventhandler som lyssnar på eventet "click". När det inträffar körs den kod som 
+// står i function {} blocket.
+  google.maps.event.addListener(marker, "click", function() {
+// Skapa en variabel som innehåller referensen det objekt markern pekar ut som request
+    var request = {reference : place.reference};
+//Skapa en servicetjäns för att ställa kompletterande frågor om objektet.
+    var service = new google.maps.places.PlacesService(map);
+//Fråga efter mer detaljer via servicen kring objektet i request (referensen).
+//När detta svar kommer anropa den kod som står efter detta funcion {} block.
+    service.getDetails(request, function(place, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        //Om OK (info har hittats)
+        var d = new Date(); //ett tidsobjekt så att vi kan hantera klockslag.
+        //Skapa texten i textrutan
+        //Hämta dag och utifrån detta öppnings och stängnings tid, trolla lite för att få det snyggt. place.opening_hours.periods[d.getDay()].open.time.slice(0,2)
+        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+        //Visa info fönstret vid marker (inte använda "this". This pekar i detta läge på window, hela fönsteret.
+        infowindow.open(map, marker);
+      }
+    });
+  });
+}
 
     //Is called upon with restaurang button - shows then restaurants on the map//
 
     function resta() {
-      var request = {
-            location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
-            radius: 5000,
-            types: ['restaurant'],
-            openNow: true
-          };
-
-          infowindow = new google.maps.InfoWindow();
-          var service = new google.maps.places.PlacesService(map);
-          service.nearbySearch(request, callback);
-        }
-
-        function callback(results, status) {
-          if (status == google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
-              createMarker(results[i]);
-            }
-          }
-
-        }
-
-        function createMarker(place) {
-          var placeLoc = place.geometry.location;
-          var marker = new google.maps.Marker({
-            map: map,
-            animation: google.maps.Animation.DROP,
-            position: place.geometry.location
-          });
-
-          google.maps.event.addListener(marker, 'click', function() {
-                //var service = new google.maps.places.PlacesService(map);
-                var request = {reference : place.reference};
-              //service.getDetails(request, detail);
-
-              var service = new google.maps.places.PlacesService(map);
-
-              service.getDetails(request, function(place, status) {
-                if (status == google.maps.places.PlacesServiceStatus.OK) {
-                  var marker = new google.maps.Marker({
-                    map: map,
-                    position: place.geometry.location
-                  });
-                  google.maps.event.addListener(marker, 'click', function() {
-                    var d = new Date();
-                    infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
-                    infowindow.open(map, this);
-                  });
-                }
-              });
-            });
-
+  var request = {
+    location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
+    radius: 5000,
+    types: ['restaurant'],
+    openNow: true
+  };
+  //Skapa infowindow och sök efter supermarketar - när svaret kommer anropa funktionen callback.
+  infowindow = new google.maps.InfoWindow();
+  var service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
+}
+//Funktionen callback tar emot svaret och skapar markers med CreateMarker för alla svaren i results
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      createMarker(results[i]);
     }
+  }
+}
+//För varje marker skapas ett markerobjekt "marker" i kartan map.
+function createMarker(place) {
+  var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    animation: google.maps.Animation.DROP,
+    icon: iconBase + 'icon_super3.png',
+    position: place.geometry.location
+  });
+// Till markerobjektet läggs en eventhandler som lyssnar på eventet "click". När det inträffar körs den kod som 
+// står i function {} blocket.
+  google.maps.event.addListener(marker, "click", function() {
+// Skapa en variabel som innehåller referensen det objekt markern pekar ut som request
+    var request = {reference : place.reference};
+//Skapa en servicetjäns för att ställa kompletterande frågor om objektet.
+    var service = new google.maps.places.PlacesService(map);
+//Fråga efter mer detaljer via servicen kring objektet i request (referensen).
+//När detta svar kommer anropa den kod som står efter detta funcion {} block.
+    service.getDetails(request, function(place, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        //Om OK (info har hittats)
+        var d = new Date(); //ett tidsobjekt så att vi kan hantera klockslag.
+        //Skapa texten i textrutan
+        //Hämta dag och utifrån detta öppnings och stängnings tid, trolla lite för att få det snyggt. place.opening_hours.periods[d.getDay()].open.time.slice(0,2)
+        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+        //Visa info fönstret vid marker (inte använda "this". This pekar i detta läge på window, hela fönsteret.
+        infowindow.open(map, marker);
+      }
+    });
+  });
+}
     // Is called upon by super market button - shows then super market or groceries on the map//
 
-    function market() {
-     var request = {
-            location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
-            radius: 5000,
-            types: ['grocery_or_supermarket'],
-            openNow: true
-          };
-
-          infowindow = new google.maps.InfoWindow();
-          var service = new google.maps.places.PlacesService(map);
-          service.nearbySearch(request, callback);
-        }
-
-        function callback(results, status) {
-          if (status == google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
-              createMarker(results[i]);
-            }
-          }
-
-        }
-
-        function createMarker(place) {
-          var placeLoc = place.geometry.location;
-          var marker = new google.maps.Marker({
-            map: map,
-            animation: google.maps.Animation.DROP,
-            position: place.geometry.location
-          });
-
-          google.maps.event.addListener(marker, 'click', function() {
-                //var service = new google.maps.places.PlacesService(map);
-                var request = {reference : place.reference};
-              //service.getDetails(request, detail);
-
-              var service = new google.maps.places.PlacesService(map);
-
-              service.getDetails(request, function(place, status) {
-                if (status == google.maps.places.PlacesServiceStatus.OK) {
-                 // var marker = new google.maps.Marker({
-                    //map: map,
-                    //position: place.geometry.location
-                 // });
-              google.maps.event.addListener(marker, 'click', function() {
-                var d = new Date();
-                infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
-                infowindow.open(map, this);
-              });
-            }
-          });
-            });
+    //Supermarketar
+function market() {
+  var request = {
+    location: map.getCenter(), // HERE SHOULD VARIABLE CENTER GO!!!
+    radius: 5000,
+    types: ['grocery_or_supermarket'],
+    openNow: true
+  };
+  //Skapa infowindow och sök efter supermarketar - när svaret kommer anropa funktionen callback.
+  infowindow = new google.maps.InfoWindow();
+  var service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
+}
+//Funktionen callback tar emot svaret och skapar markers med CreateMarker för alla svaren i results
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      createMarker(results[i]);
     }
+  }
+}
+//För varje marker skapas ett markerobjekt "marker" i kartan map.
+function createMarker(place) {
+  var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    animation: google.maps.Animation.DROP,
+    icon: iconBase + 'icon_super3.png',
+    position: place.geometry.location
+  });
+// Till markerobjektet läggs en eventhandler som lyssnar på eventet "click". När det inträffar körs den kod som 
+// står i function {} blocket.
+  google.maps.event.addListener(marker, "click", function() {
+// Skapa en variabel som innehåller referensen det objekt markern pekar ut som request
+    var request = {reference : place.reference};
+//Skapa en servicetjäns för att ställa kompletterande frågor om objektet.
+    var service = new google.maps.places.PlacesService(map);
+//Fråga efter mer detaljer via servicen kring objektet i request (referensen).
+//När detta svar kommer anropa den kod som står efter detta funcion {} block.
+    service.getDetails(request, function(place, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        //Om OK (info har hittats)
+        var d = new Date(); //ett tidsobjekt så att vi kan hantera klockslag.
+        //Skapa texten i textrutan
+        //Hämta dag och utifrån detta öppnings och stängnings tid, trolla lite för att få det snyggt. place.opening_hours.periods[d.getDay()].open.time.slice(0,2)
+        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+        //Visa info fönstret vid marker (inte använda "this". This pekar i detta läge på window, hela fönsteret.
+        infowindow.open(map, marker);
+      }
+    });
+  });
+}
+
 
     //Gets the longitude/longitude of the input by the user//
 
@@ -328,13 +334,20 @@
   <div id="map-canvas"/>
 </div>
 
-<div class="container">
+<!-- The logogoogogog 
+<div class="container .hidden-xs .hidden-sm"> 
+    <img id="logo" src="img/logo.png">
+  </div>
+
+<div class="container"> -->
 
   <!-- The input window -->
   <div id="panel" class="input-group">
     <input class="form-control" id="address" type="textbox" style="width:300px" placeholder="Type in your address here" onkeydown="if (event.keyCode == 13) codeAddress()">
     <input class="btn btn-success" type="button" value="Find me" onclick="codeAddress()">
   </div>
+
+  
 
   <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -345,7 +358,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" onclick="initialize()" href="#">WHAT IS OPEN STHLM ?</a>
+      <a class="navbar-brand" onclick="initialize()" href="#">WHAT IS OPEN STHLM </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
