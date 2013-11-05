@@ -116,7 +116,7 @@ function createMarker(place) {
         var d = new Date(); //ett tidsobjekt så att vi kan hantera klockslag.
         //Skapa texten i textrutan
         //Hämta dag och utifrån detta öppnings och stängnings tid, trolla lite för att få det snyggt. place.opening_hours.periods[d.getDay()].open.time.slice(0,2)
-        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4) + "</br>" + "<strong> Adress: </strong>" + place.address);
         //Visa info fönstret vid marker (inte använda "this". This pekar i detta läge på window, hela fönsteret.
         infowindow.open(map, marker);
       }
@@ -340,22 +340,22 @@ function createMarker(place) {
 
   
 
-  <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+  <nav class="navbar navbar-default navbar-fixed-bottom">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" onclick="initialize()" href="#">WHAT IS OPEN STHLM </a>
+      <a class="navbar-brand" onclick="initialize()" href="#">WHAT'S OPEN? </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li><button type="button" class="btn btn-success navbar-btn" onClick="shop();">SHOPS</button></li>
+        <li><button type="button" class="btn btn-success navbar-btn" onClick="shop();">CLOTHING STORE</button></li>
         <li> - </li>
         <li><button type="button" class="btn btn-success navbar-btn" onClick="caf();">CAFE</button></li>
         <li> - </li>
@@ -379,7 +379,7 @@ function createMarker(place) {
       </div>
       <div class="modal-body">
         <form role="form">
-          <button type="button" class="btn btn-success btn-xs">CLOTHING SHOP</button>
+          <button type="button" class="btn btn-success btn-xs">CLOTHING STORE</button>
           <button type="button" class="btn btn-success btn-xs">CAFE</button>
           <button type="button" class="btn btn-success btn-xs">RESTAURANT</button>
           <button type="button" class="btn btn-success btn-xs">SUPER MARKET</button>
