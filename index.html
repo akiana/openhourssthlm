@@ -170,7 +170,7 @@ function createMarker(place) {
         var d = new Date(); //ett tidsobjekt så att vi kan hantera klockslag.
         //Skapa texten i textrutan
         //Hämta dag och utifrån detta öppnings och stängnings tid, trolla lite för att få det snyggt. place.opening_hours.periods[d.getDay()].open.time.slice(0,2)
-        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4) + "</br>" + "<strong> Adress: </strong>" + place.address);
         //Visa info fönstret vid marker (inte använda "this". This pekar i detta läge på window, hela fönsteret.
         infowindow.open(map, marker);
       }
@@ -224,7 +224,7 @@ function createMarker(place) {
         var d = new Date(); //ett tidsobjekt så att vi kan hantera klockslag.
         //Skapa texten i textrutan
         //Hämta dag och utifrån detta öppnings och stängnings tid, trolla lite för att få det snyggt. place.opening_hours.periods[d.getDay()].open.time.slice(0,2)
-        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4) + "</br>" + "<strong> Adress: </strong>" + place.address);
         //Visa info fönstret vid marker (inte använda "this". This pekar i detta läge på window, hela fönsteret.
         infowindow.open(map, marker);
       }
@@ -278,7 +278,7 @@ function createMarker(place) {
         var d = new Date(); //ett tidsobjekt så att vi kan hantera klockslag.
         //Skapa texten i textrutan
         //Hämta dag och utifrån detta öppnings och stängnings tid, trolla lite för att få det snyggt. place.opening_hours.periods[d.getDay()].open.time.slice(0,2)
-        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4));
+        infowindow.setContent("<strong>Name: </strong>" + place.name + "<br />" + "<strong> Open: </strong>" + place.opening_hours.periods[d.getDay()].open.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].open.time.slice(2,4) + "-" + place.opening_hours.periods[d.getDay()].close.time.slice(0,2) + "." + place.opening_hours.periods[d.getDay()].close.time.slice(2,4) + "</br>" + "<strong> Adress: </strong>" + place.address);
         //Visa info fönstret vid marker (inte använda "this". This pekar i detta läge på window, hela fönsteret.
         infowindow.open(map, marker);
       }
